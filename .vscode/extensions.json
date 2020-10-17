@@ -1,14 +1,9 @@
 {
-	"recommendations": [
-		"mikestead.dotenv",
-		"wayou.vscode-todo-highlight",
-		"esbenp.prettier-vscode",
-		"eamodio.gitlens",
-		"streetsidesoftware.code-spell-checker",
-		"ms-vscode.vscode-typescript-tslint-plugin",
-		"dbaeumer.vscode-eslint",
-		"johnpapa.angular2",
-		"angular.ng-template",
-		"kisstkondoros.vscode-codemetrics"
-	]
+  "recommendations": [
+    "nrwl.angular-console",
+    "angular.ng-template",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "esbenp.prettier-vscode",
+    "firsttris.vscode-jest-runner"
+  ]
 }

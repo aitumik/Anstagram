@@ -1,29 +1,44 @@
 {
-	"npmScope": "angular-instagram",
-	"implicitDependencies": {
-		"angular.json": "*",
-		"package.json": "*",
-		"tslint.json": "*",
-		"nx.json": "*",
-		"tsconfig.base.json": "*"
-	},
-	"projects": {
-		"fronted": {
-			"tags": []
-		},
-		"backend": {
-			"tags": []
-		}
-	},
-	"tasksRunnerOptions": {
-		"default": {
-			"runner": "@nrwl/workspace/tasks-runners/default",
-			"options": {
-				"cacheableOperations": ["build", "lint", "test", "e2e"]
-			}
-		}
-	},
-	"affected": {
-		"defaultBase": "master"
-	}
+  "npmScope": "anstagram",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.base.json": "*",
+    "tslint.json": "*",
+    ".eslintrc.json": "*",
+    "nx.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "accessToken": "MTA4N2NhZDktMTFhNi00NTdmLWE1N2MtZGY1MzE2ZTBhY2Q3fHJlYWQtd3JpdGU=",
+        "cacheableOperations": [
+          "build",
+          "test",
+          "lint",
+          "e2e"
+        ],
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
+      }
+    }
+  },
+  "projects": {
+    "frontend": {
+      "tags": []
+    },
+    "frontend-e2e": {
+      "tags": [],
+      "implicitDependencies": [
+        "frontend"
+      ]
+    }
+  }
 }

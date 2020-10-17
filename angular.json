@@ -1,18 +1,16 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "",
   "projects": {
     "frontend": {
-      "root": "apps/frontend",
-      "sourceRoot": "apps/frontend/src",
       "projectType": "application",
-      "prefix": "ia",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
+      "root": "apps/frontend",
+      "sourceRoot": "apps/frontend/src",
+      "prefix": "anstagram",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -22,17 +20,12 @@
             "main": "apps/frontend/src/main.ts",
             "polyfills": "apps/frontend/src/polyfills.ts",
             "tsConfig": "apps/frontend/tsconfig.app.json",
+            "aot": true,
             "assets": [
               "apps/frontend/src/favicon.ico",
-              "apps/frontend/src/assets",
-              "apps/frontend/src/manifest.json"
+              "apps/frontend/src/assets"
             ],
-            "styles": [
-              "node_modules/bulma/css/bulma.min.css",
-              "./node_modules/filepond/dist/filepond.min.css",
-              "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css",
-              "apps/frontend/src/styles.scss"
-            ],
+            "styles": ["apps/frontend/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -45,9 +38,9 @@
               ],
               "optimization": true,
               "outputHashing": "all",
+              "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -59,11 +52,10 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
-              ],
-              "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json"
+              ]
             }
           }
         },
@@ -84,105 +76,71 @@
             "browserTarget": "frontend:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "apps/frontend/src/test.ts",
-            "polyfills": "apps/frontend/src/polyfills.ts",
-            "tsConfig": "apps/frontend/tsconfig.spec.json",
-            "karmaConfig": "apps/frontend/karma.conf.js",
-            "styles": [
-              "node_modules/bulma/css/bulma.min.css",
-              "./node_modules/filepond/dist/filepond.min.css",
-              "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css",
-              "apps/frontend/src/styles.scss"
-            ],
-            "scripts": [],
-            "assets": [
-              "apps/frontend/src/favicon.ico",
-              "apps/frontend/src/assets",
-              "apps/frontend/src/manifest.json"
-            ]
-          }
-        },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "apps/frontend/tsconfig.app.json",
-              "apps/frontend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "backend": {
-      "root": "apps/backend",
-      "sourceRoot": "apps/backend/src",
-      "projectType": "application",
-      "prefix": "backend",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@nrwl/node:build",
-          "options": {
-            "outputPath": "dist/apps/backend",
-            "main": "apps/backend/src/main.ts",
-            "tsConfig": "apps/backend/tsconfig.app.json",
-            "assets": [
-              "apps/backend/src/assets"
-            ],
-            "buildLibsFromSource": true
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/backend/src/environments/environment.ts",
-                  "with": "apps/backend/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "backend:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/backend/tsconfig.app.json",
-              "apps/backend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/backend/**/*"
-            ]
+            "lintFilePatterns": ["apps/frontend/src/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/backend/jest.config.js",
+            "jestConfig": "apps/frontend/jest.config.js",
             "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "frontend-e2e": {
+      "root": "apps/frontend-e2e",
+      "sourceRoot": "apps/frontend-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/frontend-e2e/cypress.json",
+            "tsConfig": "apps/frontend-e2e/tsconfig.e2e.json",
+            "devServerTarget": "frontend:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "frontend:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/frontend-e2e/**/*.{js,ts}"]
           }
         }
       }
     }
   },
-  "defaultProject": "frontend",
   "cli": {
-    "defaultCollection": "@nrwl/express",
+    "defaultCollection": "@nrwl/angular",
     "analytics": false
-  }
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "frontend"
 }
